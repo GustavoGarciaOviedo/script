@@ -1,0 +1,168 @@
+USE [DW_Northwind]
+GO
+
+/****** Object: Table [dbo].[Cliente] Script Date: 26/10/2020 10:13:46 a. m. ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[Cliente](
+[id] [int] IDENTITY(1,1) NOT NULL,
+[nombre] [varchar](50) NOT NULL,
+[ciudad] [varchar](50) NOT NULL,
+[pais] [varchar](50) NOT NULL,
+CONSTRAINT [PK_Customer] PRIMARY KEY CLUSTERED
+(
+[id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+
+
+&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+USE [DW_Northwind]
+GO
+
+/****** Object: Table [dbo].[Empleado] Script Date: 26/10/2020 10:14:55 a. m. ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[Empleado](
+[id] [int] IDENTITY(1,1) NOT NULL,
+[apellido] [varchar](50) NOT NULL,
+[informe] [int] NOT NULL,
+CONSTRAINT [PK_Employee] PRIMARY KEY CLUSTERED
+(
+[id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+USE [DW_Northwind]
+GO
+
+/****** Object: Table [dbo].[Producto] Script Date: 26/10/2020 10:16:20 a. m. ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[Producto](
+[id] [int] IDENTITY(1,1) NOT NULL,
+[nombre] [varchar](50) NOT NULL,
+[categoria] [varchar](50) NOT NULL,
+CONSTRAINT [PK_Product] PRIMARY KEY CLUSTERED
+(
+[id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+USE [DW_Northwind]
+GO
+
+/****** Object: Table [dbo].[Proveedor] Script Date: 26/10/2020 10:16:44 a. m. ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[Proveedor](
+[id] [int] IDENTITY(1,1) NOT NULL,
+[nombreCompania] [varchar](50) NOT NULL,
+[pais] [varchar](50) NOT NULL,
+CONSTRAINT [PK_Supplier] PRIMARY KEY CLUSTERED
+(
+[id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+USE [DW_Northwind]
+GO
+
+/****** Object: Table [dbo].[Tiempo] Script Date: 26/10/2020 10:17:12 a. m. ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[Tiempo](
+[id] [int] IDENTITY(1,1) NOT NULL,
+[fecha] [date] NOT NULL,
+[anio] [int] NOT NULL,
+[trimestre] [int] NOT NULL,
+[mes] [varchar](20) NOT NULL,
+[dia] [int] NOT NULL,
+CONSTRAINT [PK_Time] PRIMARY KEY CLUSTERED
+(
+[id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+USE [DW_Northwind]
+GO
+
+/****** Object: Table [dbo].[Pedido] Script Date: 26/10/2020 10:15:35 a. m. ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[Pedido](
+[productoID] [int] NOT NULL,
+[clienteID] [int] NOT NULL,
+[empleadoID] [int] NOT NULL,
+[tiempoID] [int] NOT NULL,
+[proveedorID] [int] NOT NULL,
+[precio] [float] NOT NULL,
+[cantidad] [int] NOT NULL
+) ON [PRIMARY]
+GO
+
+ALTER TABLE [dbo].[Pedido] WITH CHECK ADD CONSTRAINT [FK_Pedido_Cliente] FOREIGN KEY([clienteID])
+REFERENCES [dbo].[Cliente] ([id])
+GO
+
+ALTER TABLE [dbo].[Pedido] CHECK CONSTRAINT [FK_Pedido_Cliente]
+GO
+
+ALTER TABLE [dbo].[Pedido] WITH CHECK ADD CONSTRAINT [FK_Pedido_Empleado] FOREIGN KEY([empleadoID])
+REFERENCES [dbo].[Empleado] ([id])
+GO
+
+ALTER TABLE [dbo].[Pedido] CHECK CONSTRAINT [FK_Pedido_Empleado]
+GO
+
+ALTER TABLE [dbo].[Pedido] WITH CHECK ADD CONSTRAINT [FK_Pedido_Producto] FOREIGN KEY([productoID])
+REFERENCES [dbo].[Producto] ([id])
+GO
+
+ALTER TABLE [dbo].[Pedido] CHECK CONSTRAINT [FK_Pedido_Producto]
+GO
+
+ALTER TABLE [dbo].[Pedido] WITH CHECK ADD CONSTRAINT [FK_Pedido_Proveedor] FOREIGN KEY([proveedorID])
+REFERENCES [dbo].[Proveedor] ([id])
+GO
+
+ALTER TABLE [dbo].[Pedido] CHECK CONSTRAINT [FK_Pedido_Proveedor]
+GO
+
+ALTER TABLE [dbo].[Pedido] WITH CHECK ADD CONSTRAINT [FK_Pedido_Tiempo] FOREIGN KEY([tiempoID])
+REFERENCES [dbo].[Tiempo] ([id])
+GO
+
+ALTER TABLE [dbo].[Pedido] CHECK CONSTRAINT [FK_Pedido_Tiempo]
+GO
